@@ -6,10 +6,16 @@ class Home extends BaseController
 {
     public function index()
     {
-        $data = [
-            'controller'    	=> 'Dashboard',
-            'title'     		=> 'Dashboard',
-        ];
-        return view('dashboard',$data);
+        if (session()->get('isLogin')) {
+
+			$data = [
+				'controller'    	=> 'dashboard',
+				'title'     		=> 'Dashbord Aplikasi'
+			];
+
+			return view('dashboard', $data);
+		} else {
+			return view('login');
+		}
     }
 }

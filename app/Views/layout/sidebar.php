@@ -32,7 +32,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= base_url() ?>" class="nav-link <?= $seg == 'materi' ? 'menu-open menu-is-open' : '' ?> ">
+                <a href="<?= base_url('/materi') ?>" class="nav-link <?= $seg == 'materi' ? 'menu-open menu-is-open' : '' ?> ">
                   <i class="nav-icon fa fa-desktop"></i>
                   <p>
                     Materi

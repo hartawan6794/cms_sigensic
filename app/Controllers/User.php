@@ -27,7 +27,7 @@ class User extends BaseController
 
 			$data = [
 				'controller'    	=> 'user',
-				'title'     		=> 'User'
+				'title'     		=> 'Menu Pengguna'
 			];
 
 			return view('user', $data);
@@ -50,7 +50,6 @@ class User extends BaseController
 			$ops .= '<i class="fa-solid fa-pen-square"></i>  </button>';
 			$ops .= '<div class="dropdown-menu">';
 			$ops .= '<a class="dropdown-item text-info" onClick="save(' . $value->id_user . ')"><i class="fa-solid fa-pen-to-square"></i>   ' .  lang("Ubah")  . '</a>';
-			$ops .= '<a class="dropdown-item text-info" onClick="changePass(' . $value->id_user . ')"><i class="fa-solid fa-key"></i> Ubah Password</a>';
 			$ops .= '<div class="dropdown-divider"></div>';
 			$ops .= '<a class="dropdown-item text-danger" onClick="remove(' . $value->id_user . ')"><i class="fa-solid fa-trash"></i>   ' .  lang("Hapus")  . '</a>';
 			$ops .= '</div></div>';
@@ -219,11 +218,11 @@ class User extends BaseController
 			if ($this->userModel->where('id_user', $id)->delete()) {
 
 				$response['success'] = true;
-				$response['messages'] = lang("App.delete-success");
+				$response['messages'] = lang("Berhasil menghapus pengguna");
 			} else {
 
 				$response['success'] = false;
-				$response['messages'] = lang("App.delete-error");
+				$response['messages'] = lang("Gagal mengapus pengguna");
 			}
 		}
 

@@ -7,10 +7,10 @@
   <div class="card-header">
     <div class="row">
       <div class="col-9 mt-2">
-        <h3 class="card-title">Daftar Pengguna</h3>
+        <h3 class="card-title">Daftar Materi</h3>
       </div>
       <div class="col-3">
-        <button type="button" class="btn float-sm-end btn-success" onclick="save()" title="<?= lang("Tambah User") ?>"> <i class="fa fa-plus"></i> <?= lang('Tambah User') ?></button>
+        <button type="button" class="btn float-sm-end btn-success" onclick="save()" title="<?= lang("Tambah Materi") ?>"> <i class="fa fa-plus"></i> <?= lang('Tambah Materi') ?></button>
       </div>
     </div>
   </div>
@@ -20,9 +20,9 @@
       <thead>
         <tr>
           <th>No</th>
-          <th>Username</th>
-          <th>Nama lengkap</th>
-          <th>Tanggal lahir</th>
+          <th>Judul materi</th>
+          <th>Isi materi</th>
+
           <th></th>
         </tr>
       </thead>
@@ -44,43 +44,23 @@
       <div class="modal-body">
         <form id="data-form" class="pl-3 pr-3">
           <div class="row">
-            <input type="hidden" id="id_user" name="id_user" class="form-control" placeholder="Id user" maxlength="6">
+            <input type="hidden" id="id_materi" name="id_materi" class="form-control" placeholder="Id materi" maxlength="4" required>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="form-group mb-3">
-                <label for="username" class="col-form-label"> Username: <span class="text-danger text-required">*</span> </label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Username">
+                <label for="judul_materi" class="col-form-label"> Judul materi: <span class="text-danger">*</span> </label>
+                <input type="text" id="judul_materi" name="judul_materi" class="form-control" placeholder="Judul materi" minlength="0" maxlength="255" required>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group mb-3">
-                <label for="nm_lengkap" class="col-form-label"> Nama lengkap: <span class="text-danger text-required">*</span> </label>
-                <input type="text" id="nm_lengkap" name="nm_lengkap" class="form-control" placeholder="Nama lengkap">
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group mb-3">
-                <label for="tanggal_lahir" class="col-form-label"> Tanggal lahir: </label>
-                <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control" dateISO="true">
-              </div>
-            </div>
-            <div id="pass">
-              <div class="col-md-12">
-                <div class="form-group mb-3">
-                  <label for="password" class="col-form-label"> Password: <span class="text-danger text-required">*</span> </label>
-                  <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-                  <p class="text-pass text-danger" style="font-size : 12px"></p>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group mb-3">
-                  <label for="konfpass" class="col-form-label"> Konfirmasi Password: <span class="text-danger text-required">*</span> </label>
-                  <input type="password" id="konfpass" name="konfpass" class="form-control" placeholder="Konfirmasi Password">
-                </div>
+                <label for="isi_materi" class="col-form-label"> Isi materi: <span class="text-danger">*</span> </label>
+                <textarea class="form-control" name="isi_materi" id="isi_materi" cols="30" rows="10"></textarea>
               </div>
             </div>
           </div>
+
           <div class="form-group text-center">
             <div class="btn-group">
               <button type="submit" class="btn btn-success mr-2" id="form-btn"><?= lang("Simpan") ?></button>
@@ -93,6 +73,7 @@
   </div><!-- /.modal-dialog -->
 </div>
 <!-- /ADD modal content -->
+
 
 
 <?= $this->endSection() ?>
@@ -135,17 +116,16 @@
     return submitText;
   }
 
-  function save(id_user) {
+  function save(id_materi) {
     // reset the form 
     $("#data-form")[0].reset();
     $(".form-control").removeClass('is-invalid').removeClass('is-valid');
-    if (typeof id_user === 'undefined' || id_user < 1) { //add
+    if (typeof id_materi === 'undefined' || id_materi < 1) { //add
       urlController = '<?= base_url($controller . "/add") ?>';
       submitText = '<?= lang("Simpan") ?>';
       $('#model-header').removeClass('bg-info').addClass('bg-success');
-      $("#info-header-modalLabel").text('<?= lang("Tambah Data") ?>');
+      $("#info-header-modalLabel").text('<?= lang("Simpan Materi") ?>');
       $("#form-btn").text(submitText);
-      $('.text-pass').text('');
       $('#data-modal').modal('show');
     } else { //edit
       urlController = '<?= base_url($controller . "/edit") ?>';
@@ -154,24 +134,18 @@
         url: '<?php echo base_url($controller . "/getOne") ?>',
         type: 'post',
         data: {
-          id_user: id_user
+          id_materi: id_materi
         },
         dataType: 'json',
         success: function(response) {
           $('#model-header').removeClass('bg-success').addClass('bg-info');
-          $("#info-header-modalLabel").text('<?= lang("Ubah Data") ?>');
+          $("#info-header-modalLabel").text('<?= lang("Ubah Materi") ?>');
           $("#form-btn").text(submitText);
           $('#data-modal').modal('show');
           //insert data to form
-          $("#data-form #id_user").val(response.id_user);
-          $("#data-form #username").val(response.username);
-          $("#data-form #nm_lengkap").val(response.nm_lengkap);
-          $("#data-form #tanggal_lahir").val(response.tanggal_lahir);
-          $("#data-form #username").prop('readonly', true)
-          $('.text-pass').text('Kosongkan jika tidak dirubah');
-          $('.text-required').text('');
-          // $("#data-form #pass").html('');
-          // $("#data-form #password").val(response.password);
+          $("#data-form #id_materi").val(response.id_materi);
+          $("#data-form #judul_materi").val(response.judul_materi);
+          $("#data-form #isi_materi").val(response.isi_materi);
 
         }
       });
@@ -262,15 +236,17 @@
     });
   }
 
-  function remove(id_user) {
+
+
+  function remove(id_materi) {
     Swal.fire({
       title: "<?= lang("Hapus") ?>",
-      text: "<?= lang("Yakin Ingin Menghapus Data ?") ?>",
+      text: "<?= lang("Yakin ingin menghapus ?") ?>",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: '<?= lang("Konfirmasi") ?>',
+      confirmButtonText: '<?= lang("Hapus") ?>',
       cancelButtonText: '<?= lang("Batal") ?>'
     }).then((result) => {
 
@@ -279,7 +255,7 @@
           url: '<?php echo base_url($controller . "/remove") ?>',
           type: 'post',
           data: {
-            id_user: id_user
+            id_materi: id_materi
           },
           dataType: 'json',
           success: function(response) {
@@ -310,7 +286,6 @@
       }
     })
   }
-
 </script>
 
 

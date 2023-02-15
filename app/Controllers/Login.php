@@ -60,7 +60,7 @@ class Login extends BaseController
                 <?php
             } else {
                 // cek password
-                if ($this->checkPassword($password)) {
+                if ($this->user->checkPassword($password)) {
                     $session = [
                         'isLogin' => true,
                         'id_user' => $user->id_user,
@@ -99,14 +99,7 @@ class Login extends BaseController
         }
     }
 
-    function checkPassword($password)
-    {
-        $user = $this->user->where('password', md5($password))->first();
-        if ($user)
-            return true;
-        else
-            return false;
-    }
+    
 
     function logout(){
         $this->session->destroy();

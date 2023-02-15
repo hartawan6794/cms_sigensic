@@ -31,4 +31,13 @@ class UserModel extends Model
             return false;
         }
     }
+
+	public function checkPassword($password)
+    {
+        $user = $this->select()->where('password', md5($password))->first();
+        if ($user)
+            return true;
+        else
+            return false;
+    }
 }

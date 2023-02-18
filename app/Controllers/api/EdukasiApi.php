@@ -5,14 +5,14 @@ namespace App\Controllers\Api;
 use App\Controllers\BaseController;
 use App\Models\MateriModel;
 
-class SoalApi extends BaseController
+class EdukasiApi extends BaseController
 {
     public function __construct()
     {
         $this->judul = new MateriModel();
     }
 
-    public function getJudul(){
+    public function getEdukasi(){
         $response = array();
         $data = $this->judul->select()->findAll();
         if ($data) {

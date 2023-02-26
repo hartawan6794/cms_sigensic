@@ -6,13 +6,13 @@
 <div class="card">
   <div class="card-header">
     <div class="row">
-      <div class="col-9 mt-2">
-        <h3 class="card-title">Daftar Materi</h3>
+      <div class="col-10 mt-2">
+        <h3 class="card-title">Daftar Reminder</h3>
       </div>
-      <div class="col-3">
-        <button type="button" class="btn float-sm-end btn-success" onclick="save()" title="<?= lang("Tambah Materi") ?>"> <i class="fa fa-plus"></i> <?= lang('Tambah Materi') ?></button>
+      <!-- <div class="col-2">
+        <button type="button" class="btn float-right btn-success" onclick="save()" title="<?= lang("App.new") ?>"> <i class="fa fa-plus"></i> <?= lang('App.new') ?></button>
       </div>
-    </div>
+    </div> -->
   </div>
   <!-- /.card-header -->
   <div class="card-body">
@@ -20,7 +20,9 @@
       <thead>
         <tr>
           <th>No</th>
-          <th>Judul materi</th>
+          <th>Nama User</th>
+          <th>Judul</th>
+          <th>Tanggal Alarm</th>
 
           <th></th>
         </tr>
@@ -43,21 +45,39 @@
       <div class="modal-body">
         <form id="data-form" class="pl-3 pr-3">
           <div class="row">
-            <input type="hidden" id="id_materi" name="id_materi" class="form-control" placeholder="Id materi" maxlength="4" required>
+            <input type="hidden" id="id_reminder" name="id_reminder" class="form-control" placeholder="Id reminder" maxlength="4" required>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="form-group mb-3">
-                <label for="judul_materi" class="col-form-label"> Judul materi: <span class="text-danger">*</span> </label>
-                <input type="text" id="judul_materi" name="judul_materi" class="form-control" placeholder="Judul materi" minlength="0" maxlength="255" required>
+                <label for="id_user" class="col-form-label"> Nama User: <span class="text-danger">*</span> </label>
+                <input type="number" id="id_user" name="id_user" class="form-control" placeholder="Nama User" minlength="0" maxlength="6" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="judul" class="col-form-label"> Judul: <span class="text-danger">*</span> </label>
+                <input type="text" id="judul" name="judul" class="form-control" placeholder="Judul" minlength="0" maxlength="255" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="created_at" class="col-form-label"> Tanggal Alarm: </label>
+                <input type="date" id="created_at" name="created_at" class="form-control" dateISO="true">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="updated_at" class="col-form-label"> Updated at: </label>
+                <input type="date" id="updated_at" name="updated_at" class="form-control" dateISO="true">
               </div>
             </div>
           </div>
 
           <div class="form-group text-center">
             <div class="btn-group">
-              <button type="submit" class="btn btn-success mr-2" id="form-btn"><?= lang("Simpan") ?></button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><?= lang("Batal") ?></button>
+              <button type="submit" class="btn btn-success mr-2" id="form-btn"><?= lang("App.save") ?></button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><?= lang("App.cancel") ?></button>
             </div>
           </div>
         </form>
@@ -109,36 +129,38 @@
     return submitText;
   }
 
-  function save(id_materi) {
+  function save(id_reminder) {
     // reset the form 
     $("#data-form")[0].reset();
     $(".form-control").removeClass('is-invalid').removeClass('is-valid');
-    if (typeof id_materi === 'undefined' || id_materi < 1) { //add
+    if (typeof id_reminder === 'undefined' || id_reminder < 1) { //add
       urlController = '<?= base_url($controller . "/add") ?>';
-      submitText = '<?= lang("Simpan") ?>';
+      submitText = '<?= lang("App.save") ?>';
       $('#model-header').removeClass('bg-info').addClass('bg-success');
-      $("#info-header-modalLabel").text('<?= lang("Simpan Materi") ?>');
+      $("#info-header-modalLabel").text('<?= lang("App.add") ?>');
       $("#form-btn").text(submitText);
       $('#data-modal').modal('show');
     } else { //edit
       urlController = '<?= base_url($controller . "/edit") ?>';
-      submitText = '<?= lang("Ubah") ?>';
+      submitText = '<?= lang("App.update") ?>';
       $.ajax({
         url: '<?php echo base_url($controller . "/getOne") ?>',
         type: 'post',
         data: {
-          id_materi: id_materi
+          id_reminder: id_reminder
         },
         dataType: 'json',
         success: function(response) {
           $('#model-header').removeClass('bg-success').addClass('bg-info');
-          $("#info-header-modalLabel").text('<?= lang("Ubah Materi") ?>');
+          $("#info-header-modalLabel").text('<?= lang("App.edit") ?>');
           $("#form-btn").text(submitText);
           $('#data-modal').modal('show');
           //insert data to form
-          $("#data-form #id_materi").val(response.id_materi);
-          $("#data-form #judul_materi").val(response.judul_materi);
-          $("#data-form #isi_materi").val(response.isi_materi);
+          $("#data-form #id_reminder").val(response.id_reminder);
+          $("#data-form #id_user").val(response.id_user);
+          $("#data-form #judul").val(response.judul);
+          $("#data-form #created_at").val(response.created_at);
+          $("#data-form #updated_at").val(response.updated_at);
 
         }
       });
@@ -231,7 +253,7 @@
 
 
 
-  function remove(id_materi) {
+  function remove(id_reminder) {
     Swal.fire({
       title: "<?= lang("Hapus") ?>",
       text: "<?= lang("Yakin ingin menghapus ?") ?>",
@@ -248,7 +270,7 @@
           url: '<?php echo base_url($controller . "/remove") ?>',
           type: 'post',
           data: {
-            id_materi: id_materi
+            id_reminder: id_reminder
           },
           dataType: 'json',
           success: function(response) {

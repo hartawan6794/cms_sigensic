@@ -4,24 +4,26 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class TblMateri extends Migration
+class TblSubMateri extends Migration
 {
     public function up()
     {
-
         $fields = [
-            'id_materi' => [
+            'id_sub_materi' => [
                 'type' => 'TINYINT',
                 'auto_increment' => true,
             ],
-            'judul_materi' => [
+            'id_materi' => [
+                'type' => 'TINYINT',
+            ],
+            'judul_sub_materi' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
                 'default' => '',
             ],
             'isi_materi' => [
                 'type' => 'VARCHAR',
-                'constraint' => 10240,
+                'constraint' => 8024,
                 'default' => '',
             ],
             'created_at' => [
@@ -36,8 +38,9 @@ class TblMateri extends Migration
             ],
         ];
         $this->forge->addField($fields);
-        $this->forge->addPrimaryKey('id_materi');
-        $this->forge->createTable('tbl_materi', false);
+        $this->forge->addPrimaryKey('id_sub_materi');
+        $this->forge->addForeignKey('id_materi','tbl_materi','id_materi','CASCADE','CASCADE');
+        $this->forge->createTable('tbl_sub_materi', false);
     }
 
     public function down()

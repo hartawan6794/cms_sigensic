@@ -7,10 +7,10 @@
   <div class="card-header">
     <div class="row">
       <div class="col-9 mt-2">
-        <h3 class="card-title">Daftar Materi</h3>
+        <h3 class="card-title">Daftar Sub Materi</h3>
       </div>
       <div class="col-3">
-        <button type="button" class="btn float-sm-end btn-success" onclick="save()" title="<?= lang("Tambah Materi") ?>"> <i class="fa fa-plus"></i> <?= lang('Tambah Materi') ?></button>
+        <button type="button" class="btn float-sm-end btn-success" onclick="save()" title="<?= lang("Tambah Sub Materi") ?>"> <i class="fa fa-plus"></i> <?= lang('Tambah Sub Materi') ?></button>
       </div>
     </div>
   </div>
@@ -20,7 +20,9 @@
       <thead>
         <tr>
           <th>No</th>
-          <th>Judul materi</th>
+          <th>Nama Materi</th>
+          <th>Judul sub materi</th>
+          <th>Isi materi</th>
 
           <th></th>
         </tr>
@@ -43,13 +45,32 @@
       <div class="modal-body">
         <form id="data-form" class="pl-3 pr-3">
           <div class="row">
-            <input type="hidden" id="id_materi" name="id_materi" class="form-control" placeholder="Id materi" maxlength="4" required>
+            <input type="hidden" id="id_sub_materi" name="id_sub_materi" class="form-control" placeholder="Id sub materi" maxlength="4" required>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="form-group mb-3">
-                <label for="judul_materi" class="col-form-label"> Judul materi: <span class="text-danger">*</span> </label>
-                <input type="text" id="judul_materi" name="judul_materi" class="form-control" placeholder="Judul materi" minlength="0" maxlength="255" required>
+                <label for="id_materi" class="col-form-label"> Nama Materi: <span class="text-danger">*</span> </label>
+                <select name="id_materi" id="id_materi" class="form-control" >
+                  <option value="">-- Pilih Judul Materi --</option>
+                  <?php foreach($materi as $value) : ?>
+                    <option value="<?= $value->id_materi?>"><?= $value->judul_materi?></option>
+                    <?php endforeach; ?>
+                </select>
+                <!-- <input type="number" id="id_materi" name="id_materi" class="form-control" placeholder="Nama Materi" minlength="0" maxlength="4" required> -->
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="judul_sub_materi" class="col-form-label"> Judul sub materi: <span class="text-danger">*</span> </label>
+                <input type="text" id="judul_sub_materi" name="judul_sub_materi" class="form-control" placeholder="Judul sub materi" minlength="0" maxlength="255" required>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="isi_materi" class="col-form-label"> Isi materi: <span class="text-danger">*</span> </label>
+                <textarea  id="isi_materi" name="isi_materi" class="form-control" rows="10" cols="10"></textarea>
               </div>
             </div>
           </div>
@@ -109,15 +130,15 @@
     return submitText;
   }
 
-  function save(id_materi) {
+  function save(id_sub_materi) {
     // reset the form 
     $("#data-form")[0].reset();
     $(".form-control").removeClass('is-invalid').removeClass('is-valid');
-    if (typeof id_materi === 'undefined' || id_materi < 1) { //add
+    if (typeof id_sub_materi === 'undefined' || id_sub_materi < 1) { //add
       urlController = '<?= base_url($controller . "/add") ?>';
       submitText = '<?= lang("Simpan") ?>';
       $('#model-header').removeClass('bg-info').addClass('bg-success');
-      $("#info-header-modalLabel").text('<?= lang("Simpan Materi") ?>');
+      $("#info-header-modalLabel").text('<?= lang("Tambah Sub Matari") ?>');
       $("#form-btn").text(submitText);
       $('#data-modal').modal('show');
     } else { //edit
@@ -127,17 +148,18 @@
         url: '<?php echo base_url($controller . "/getOne") ?>',
         type: 'post',
         data: {
-          id_materi: id_materi
+          id_sub_materi: id_sub_materi
         },
         dataType: 'json',
         success: function(response) {
           $('#model-header').removeClass('bg-success').addClass('bg-info');
-          $("#info-header-modalLabel").text('<?= lang("Ubah Materi") ?>');
+          $("#info-header-modalLabel").text('<?= lang("Ubah Sub Matari") ?>');
           $("#form-btn").text(submitText);
           $('#data-modal').modal('show');
           //insert data to form
+          $("#data-form #id_sub_materi").val(response.id_sub_materi);
           $("#data-form #id_materi").val(response.id_materi);
-          $("#data-form #judul_materi").val(response.judul_materi);
+          $("#data-form #judul_sub_materi").val(response.judul_sub_materi);
           $("#data-form #isi_materi").val(response.isi_materi);
 
         }
@@ -231,16 +253,16 @@
 
 
 
-  function remove(id_materi) {
+  function remove(id_sub_materi) {
     Swal.fire({
-      title: "<?= lang("Hapus") ?>",
-      text: "<?= lang("Yakin ingin menghapus ?") ?>",
+      title: "<?= lang("App.remove-title") ?>",
+      text: "<?= lang("App.remove-text") ?>",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: '<?= lang("Hapus") ?>',
-      cancelButtonText: '<?= lang("Batal") ?>'
+      confirmButtonText: '<?= lang("App.confirm") ?>',
+      cancelButtonText: '<?= lang("App.cancel") ?>'
     }).then((result) => {
 
       if (result.value) {
@@ -248,7 +270,7 @@
           url: '<?php echo base_url($controller . "/remove") ?>',
           type: 'post',
           data: {
-            id_materi: id_materi
+            id_sub_materi: id_sub_materi
           },
           dataType: 'json',
           success: function(response) {

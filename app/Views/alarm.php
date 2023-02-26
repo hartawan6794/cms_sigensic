@@ -6,11 +6,8 @@
 <div class="card">
   <div class="card-header">
     <div class="row">
-      <div class="col-9 mt-2">
-        <h3 class="card-title">Daftar Materi</h3>
-      </div>
-      <div class="col-3">
-        <button type="button" class="btn float-sm-end btn-success" onclick="save()" title="<?= lang("Tambah Materi") ?>"> <i class="fa fa-plus"></i> <?= lang('Tambah Materi') ?></button>
+      <div class="col-10 mt-2">
+        <h3 class="card-title">Daftar Alarm Pengguna</h3>
       </div>
     </div>
   </div>
@@ -20,7 +17,11 @@
       <thead>
         <tr>
           <th>No</th>
-          <th>Judul materi</th>
+          <th>Nama User</th>
+          <th>Tgl alarm</th>
+          <th>Jm alarm</th>
+          <th>Status</th>
+          <th>Waktu alarm</th>
 
           <th></th>
         </tr>
@@ -43,21 +44,57 @@
       <div class="modal-body">
         <form id="data-form" class="pl-3 pr-3">
           <div class="row">
-            <input type="hidden" id="id_materi" name="id_materi" class="form-control" placeholder="Id materi" maxlength="4" required>
+            <input type="hidden" id="id_alarm" name="id_alarm" class="form-control" placeholder="Id alarm" maxlength="4" required>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="form-group mb-3">
-                <label for="judul_materi" class="col-form-label"> Judul materi: <span class="text-danger">*</span> </label>
-                <input type="text" id="judul_materi" name="judul_materi" class="form-control" placeholder="Judul materi" minlength="0" maxlength="255" required>
+                <label for="id_user" class="col-form-label"> Nama User: <span class="text-danger">*</span> </label>
+                <input type="number" id="id_user" name="id_user" class="form-control" placeholder="Nama User" minlength="0" maxlength="6" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="tgl_alarm" class="col-form-label"> Tgl alarm: <span class="text-danger">*</span> </label>
+                <input type="text" id="tgl_alarm" name="tgl_alarm" class="form-control" placeholder="Tgl alarm" minlength="0" maxlength="100" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="jm_alarm" class="col-form-label"> Jm alarm: <span class="text-danger">*</span> </label>
+                <input type="text" id="jm_alarm" name="jm_alarm" class="form-control" placeholder="Jm alarm" minlength="0" maxlength="10" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="status" class="col-form-label"> Status: <span class="text-danger">*</span> </label>
+                <input type="number" id="status" name="status" class="form-control" placeholder="Status" minlength="0" maxlength="3" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="waktu_alarm" class="col-form-label"> Waktu alarm: <span class="text-danger">*</span> </label>
+                <input type="date" id="waktu_alarm" name="waktu_alarm" class="form-control" dateISO="true" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="created_at" class="col-form-label"> Created at: </label>
+                <input type="date" id="created_at" name="created_at" class="form-control" dateISO="true">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="updated_at" class="col-form-label"> Updated at: </label>
+                <input type="date" id="updated_at" name="updated_at" class="form-control" dateISO="true">
               </div>
             </div>
           </div>
 
           <div class="form-group text-center">
             <div class="btn-group">
-              <button type="submit" class="btn btn-success mr-2" id="form-btn"><?= lang("Simpan") ?></button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><?= lang("Batal") ?></button>
+              <button type="submit" class="btn btn-success mr-2" id="form-btn"><?= lang("App.save") ?></button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><?= lang("App.cancel") ?></button>
             </div>
           </div>
         </form>
@@ -109,36 +146,41 @@
     return submitText;
   }
 
-  function save(id_materi) {
+  function save(id_alarm) {
     // reset the form 
     $("#data-form")[0].reset();
     $(".form-control").removeClass('is-invalid').removeClass('is-valid');
-    if (typeof id_materi === 'undefined' || id_materi < 1) { //add
+    if (typeof id_alarm === 'undefined' || id_alarm < 1) { //add
       urlController = '<?= base_url($controller . "/add") ?>';
-      submitText = '<?= lang("Simpan") ?>';
+      submitText = '<?= lang("App.save") ?>';
       $('#model-header').removeClass('bg-info').addClass('bg-success');
-      $("#info-header-modalLabel").text('<?= lang("Simpan Materi") ?>');
+      $("#info-header-modalLabel").text('<?= lang("App.add") ?>');
       $("#form-btn").text(submitText);
       $('#data-modal').modal('show');
     } else { //edit
       urlController = '<?= base_url($controller . "/edit") ?>';
-      submitText = '<?= lang("Ubah") ?>';
+      submitText = '<?= lang("App.update") ?>';
       $.ajax({
         url: '<?php echo base_url($controller . "/getOne") ?>',
         type: 'post',
         data: {
-          id_materi: id_materi
+          id_alarm: id_alarm
         },
         dataType: 'json',
         success: function(response) {
           $('#model-header').removeClass('bg-success').addClass('bg-info');
-          $("#info-header-modalLabel").text('<?= lang("Ubah Materi") ?>');
+          $("#info-header-modalLabel").text('<?= lang("App.edit") ?>');
           $("#form-btn").text(submitText);
           $('#data-modal').modal('show');
           //insert data to form
-          $("#data-form #id_materi").val(response.id_materi);
-          $("#data-form #judul_materi").val(response.judul_materi);
-          $("#data-form #isi_materi").val(response.isi_materi);
+          $("#data-form #id_alarm").val(response.id_alarm);
+          $("#data-form #id_user").val(response.id_user);
+          $("#data-form #tgl_alarm").val(response.tgl_alarm);
+          $("#data-form #jm_alarm").val(response.jm_alarm);
+          $("#data-form #status").val(response.status);
+          $("#data-form #waktu_alarm").val(response.waktu_alarm);
+          $("#data-form #created_at").val(response.created_at);
+          $("#data-form #updated_at").val(response.updated_at);
 
         }
       });
@@ -231,16 +273,16 @@
 
 
 
-  function remove(id_materi) {
+  function remove(id_alarm) {
     Swal.fire({
-      title: "<?= lang("Hapus") ?>",
-      text: "<?= lang("Yakin ingin menghapus ?") ?>",
+      title: "<?= lang("App.remove-title") ?>",
+      text: "<?= lang("App.remove-text") ?>",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: '<?= lang("Hapus") ?>',
-      cancelButtonText: '<?= lang("Batal") ?>'
+      confirmButtonText: '<?= lang("App.confirm") ?>',
+      cancelButtonText: '<?= lang("App.cancel") ?>'
     }).then((result) => {
 
       if (result.value) {
@@ -248,7 +290,7 @@
           url: '<?php echo base_url($controller . "/remove") ?>',
           type: 'post',
           data: {
-            id_materi: id_materi
+            id_alarm: id_alarm
           },
           dataType: 'json',
           success: function(response) {

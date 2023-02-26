@@ -11,6 +11,7 @@ class UserApi extends BaseController
     public function __construct()
     {
         $this->user = new UserModel();
+        $this->validation =  \Config\Services::validation();
     }
 
     public function login()
@@ -19,12 +20,11 @@ class UserApi extends BaseController
         $username = $this->request->getPostGet('username');
         $password = $this->request->getPostGet('password');
 
-
         // cek username
-        $data = $this->user->where('username', $username)->first();
+        $data = $this->user->where('username', $username)->findAll();
         if ($data) {
             //cek password
-            if ($this->user->checkPassword($password)->first()) {
+            if ($this->user->checkPassword($password)) {
                 $response['success'] = true;
                 $response['mesagge'] = "Berhasil login";
                 $response['data'] = $data;
@@ -52,16 +52,34 @@ class UserApi extends BaseController
         $fields['password'] = md5($this->request->getPostGet('password'));
         $fields['created_at'] = date('Y-m-d H:i:s');
 
-        if ($this->user->insert($fields)) {
 
-            $response['success'] = true;
-            $response['messages'] = "Data berhasil ditambah";
-        } else {
+        $this->validation->setRules([
+            'username' => [
+                'label' => 'Username', 'rules' => 'required|userExists[username]|trim|username_check_blank[username]', 'errors' => [
+                    'required' => 'Username Masih Kosong',
+                    'username_check_blank' => 'Username Tidak Boleh Spasi',
+                    'userExists' => 'Username sudah digunakan'
+                ]
+            ]
+        ]);
+
+        if ($this->validation->run($fields) == FALSE) {
 
             $response['success'] = false;
-            $response['messages'] = "Data gagal ditambah";
-        }
+            $response['messages'] = $this->validation->getErrors(); //Show Error in Input Form
 
+        } else {
+
+            if ($this->user->insert($fields)) {
+
+                $response['success'] = true;
+                $response['messages'] = "Data berhasil ditambah";
+            } else {
+
+                $response['success'] = false;
+                $response['messages'] = "Data gagal ditambah";
+            }
+        }
         return $this->response->setJSON($response);
     }
 }

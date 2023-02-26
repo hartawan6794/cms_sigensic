@@ -4,22 +4,30 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class TblJawaban extends Migration
+class TblHasilKuesioner extends Migration
 {
     public function up()
     {
         $fields = [
-            'id_jawaban' => [
+            'id_hasil' => [
                 'type' => 'TINYINT',
                 'auto_increment' => true,
             ],
-            'id_soal' => [
-                'type' => 'TINYINT',
+            'id_user' => [
+                'type' => 'SMALLINT',
             ],
-            'jawaban_soal' => [
+            'kondisi' => [
+                'type' => 'TINYINT',
+                'constraint' => 3,
+            ],
+            'skor' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 10,
                 'default' => '',
+            ],
+            'status' => [
+                'type' => 'TINYINT',
+                'constraint' => 3,
             ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
@@ -33,9 +41,9 @@ class TblJawaban extends Migration
             ],
         ];
         $this->forge->addField($fields);
-        $this->forge->addPrimaryKey('id_jawaban');
-        $this->forge->addForeignKey('id_soal','tbl_soal','id_soal','CASCADE','CASCADE');
-        $this->forge->createTable('tbl_jawaban', false);
+        $this->forge->addPrimaryKey('id_hasil');
+        $this->forge->addForeignKey('id_user','tbl_user','id_user','CASCADE','CASCADE');
+        $this->forge->createTable('tbl_hasil_kuesioner', false);
     }
 
     public function down()

@@ -56,8 +56,6 @@ class Materi extends BaseController
 			$data['data'][$key] = array(
 				$no,
 				$value->judul_materi,
-				$value->isi_materi,
-
 				$ops
 			);
 			$no++;
@@ -88,13 +86,11 @@ class Materi extends BaseController
 
 		$fields['id_materi'] = $this->request->getPost('id_materi');
 		$fields['judul_materi'] = $this->request->getPost('judul_materi');
-		$fields['isi_materi'] = $this->request->getPost('isi_materi');
 		$fields['created_at'] = date('Y-m-d H:i:s');
 
 
 		$this->validation->setRules([
 			'judul_materi' => ['label' => 'Judul materi', 'rules' => 'required|min_length[0]|max_length[255]'],
-			'isi_materi' => ['label' => 'Isi materi', 'rules' => 'required|min_length[0]|max_length[1024]'],
 
 		]);
 
@@ -125,18 +121,14 @@ class Materi extends BaseController
 
 		$fields['id_materi'] = $this->request->getPost('id_materi');
 		$fields['judul_materi'] = $this->request->getPost('judul_materi');
-		$fields['isi_materi'] = $this->request->getPost('isi_materi');
 		$fields['updated_at'] = date('Y-m-d H:i:s');
 
 
 		$this->validation->setRules([
 			'judul_materi' => ['label' => 'Judul materi', 'rules' => 'required|min_length[0]|max_length[255]'],
-			'isi_materi' => ['label' => 'Isi materi', 'rules' => 'required|min_length[0]|max_length[1024]'],
-
 		]);
 
 		if ($this->validation->run($fields) == FALSE) {
-
 			$response['success'] = false;
 			$response['messages'] = $this->validation->getErrors(); //Show Error in Input Form
 
@@ -181,4 +173,3 @@ class Materi extends BaseController
 		return $this->response->setJSON($response);
 	}
 }
-

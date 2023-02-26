@@ -24,49 +24,47 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= base_url('/user') ?>" class="nav-link <?=$seg == 'user' ? 'menu-open menu-is-open' : '' ?> ">
+                <a href="<?= base_url('/user') ?>" class="nav-link <?= $seg == 'user' ? 'menu-open menu-is-open' : '' ?> ">
                   <i class="nav-icon fa fa-desktop"></i>
                   <p>
                     User
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="<?= base_url('/materi') ?>" class="nav-link <?= $seg == 'materi' ? 'menu-open menu-is-open' : '' ?> ">
-                  <i class="nav-icon fa fa-desktop"></i>
-                  <p>
-                    Materi
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item <?= $seg == 'soal' || $seg == 'jawaban' ? 'menu-open menu-is-open' : '' ?>">
+              <li class="nav-item <?= $seg == 'materi' || $seg == 'submateri' ? 'menu-open menu-is-open' : '' ?>">
                 <a href="#" class="nav-link ">
                   <i class="nav-icon fa fa-desktop"></i>
                   <p>
-                    Soal
+                    Materi
                     <i class="end fas fa-angle-left"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="<?= base_url('soal') ?>" class="nav-link <?= $seg == 'soal' ? 'active' : '' ?>">
+                    <a href="<?= base_url('materi') ?>" class="nav-link <?= $seg == 'materi' ? 'active' : '' ?>">
                       <i class="nav-icon far fa-circle"></i>
-                      <p>Soal</p>
+                      <p>Materi</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?= base_url('jawaban') ?>" class="nav-link <?= $seg == 'jawaban' ? 'active' : '' ?>">
+                    <a href="<?= base_url('submateri') ?>" class="nav-link <?= $seg == 'submateri' ? 'active' : '' ?>">
                       <i class="nav-icon far fa-circle"></i>
-                      <p>Jawaban</p>
+                      <p>Sub Materi</p>
                     </a>
                   </li>
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="<?= base_url() ?>" class="nav-link <?= $seg == 'histori' ? 'menu-open menu-is-open' : '' ?> ">
+                <a href="<?= base_url('soal') ?>" class="nav-link <?= $seg == 'soal' ? 'active' : '' ?>">
+                  <i class="nav-icon fa fa-desktop"></i>
+                  <p>Soal</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= base_url('hasilKuesioner') ?>" class="nav-link <?= $seg == 'hasilKuesioner' || $seg == 'hasilkuesioner' ? 'active' : '' ?> ">
                   <i class="nav-icon fa fa-desktop"></i>
                   <p>
-                    Catatan Penilaian
+                    Hasil Kuesioner
                   </p>
                 </a>
               </li>

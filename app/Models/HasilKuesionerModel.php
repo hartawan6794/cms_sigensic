@@ -4,13 +4,13 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class MateriModel extends Model {
+class HasilKuesionerModel extends Model {
     
-	protected $table = 'tbl_materi';
-	protected $primaryKey = 'id_materi';
+	protected $table = 'tbl_hasil_kuesioner';
+	protected $primaryKey = 'id_hasil';
 	protected $returnType = 'object';
 	protected $useSoftDeletes = false;
-	protected $allowedFields = ['judul_materi', 'created_at', 'updated_at'];
+	protected $allowedFields = ['id_user', 'kondisi', 'skor', 'status', 'created_at', 'updated_at'];
 	protected $useTimestamps = false;
 	protected $createdField  = 'created_at';
 	protected $updatedField  = 'updated_at';

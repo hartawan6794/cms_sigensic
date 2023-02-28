@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\BaseController;
+use App\Models\TblriwayathasilkuesionerModel;
 use App\Models\UserModel;
 
 class UserApi extends BaseController
@@ -12,6 +13,7 @@ class UserApi extends BaseController
     {
         $this->user = new UserModel();
         $this->validation =  \Config\Services::validation();
+        $this->riwayatHasilKuesioner = new TblriwayathasilkuesionerModel();
     }
 
     public function login()
@@ -80,6 +82,27 @@ class UserApi extends BaseController
                 $response['messages'] = "Data gagal ditambah";
             }
         }
+        return $this->response->setJSON($response);
+    }
+
+    public function getRiwayat()
+    {
+        $response  = array();
+
+        $id_user = $this->request->getPostGet('id_user');
+
+        $result = $this->riwayatHasilKuesioner->select()->where('id_user', $id_user)->findAll();
+
+        if ($result) {
+            $response['success'] = true;
+            $response['mesagge'] = "Berhasil mendapatkan data";
+            $response['data'] = $result;
+        } else {
+            $response['success'] = false;
+            $response['mesagge'] = "Gagal mendapatkan data";
+            $response['data'] = $result;
+        }
+
         return $this->response->setJSON($response);
     }
 }

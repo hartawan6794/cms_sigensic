@@ -52,6 +52,7 @@ $routes->get('/edukasiapi/get', 'Api\EdukasiApi::getEdukasi');
 $routes->post('/edukasiapi/getsub', 'Api\EdukasiApi::getSubEdukasi');
 $routes->post('/userapi/login', 'Api\UserApi::login');
 $routes->post('/userapi/register', 'Api\UserApi::register');
+$routes->post('/userapi/getriwayat', 'Api\UserApi::getRiwayat');
 
 /*
  * --------------------------------------------------------------------

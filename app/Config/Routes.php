@@ -38,6 +38,21 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+$routes->get('/', 'Home::index');
+$routes->get('/soalapi/get', 'Api\SoalApi::getSoal');
+$routes->post('/soalapi/checkdata', 'Api\SoalApi::checkData');
+$routes->post('/soalapi/add', 'Api\SoalApi::tambahHasil');
+$routes->post('/soalapi/updatehasil', 'Api\SoalApi::updateHasil');
+$routes->post('/alarmapi/countdata', 'Api\AlarmApi::countData');
+$routes->post('/alarmapi/add', 'Api\AlarmApi::add');
+$routes->post('/alarmapi/getall', 'Api\AlarmApi::getAll');
+$routes->post('/alarmapi/update', 'Api\AlarmApi::updateAlarm');
+$routes->post('/alarmapi/check', 'Api\AlarmApi::checkAlarm');
+$routes->get('/edukasiapi/get', 'Api\EdukasiApi::getEdukasi');
+$routes->post('/edukasiapi/getsub', 'Api\EdukasiApi::getSubEdukasi');
+$routes->post('/userapi/login', 'Api\UserApi::login');
+$routes->post('/userapi/register', 'Api\UserApi::register');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

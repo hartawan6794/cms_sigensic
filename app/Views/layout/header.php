@@ -5,7 +5,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SI_GENIC</title>
+  <title>SI_GENSIC</title>
+  <link rel = "icon" href = 
+"<?= base_url('asset/img/logo.jpeg')?>" 
+        type = "image/x-icon">
   <meta name="description" content="Garment Factory Process">
   <meta name="keyword" content="garment,factory,khonkaen,ocomshop">
   <meta name="author" content="ocomshop">

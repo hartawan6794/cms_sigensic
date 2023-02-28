@@ -6,7 +6,7 @@
         <div class="brand-container">
           <a href="javascript:;" class="brand-link">
             <img src="<?= base_url('asset/img/AdminLTELogo.png') ?>" alt="AdminLTE Logo" class="brand-image opacity-80 shadow">
-            <span class="brand-text fw-light">Si Genic</span>
+            <span class="brand-text fw-light">Si Gensic</span>
           </a>
           <a class="pushmenu mx-1" data-lte-toggle="sidebar-mini" href="javascript:;" role="button"><i class="fas fa-angle-double-left"></i></a>
         </div>
@@ -24,7 +24,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= base_url('/user') ?>" class="nav-link <?= $seg == 'user' ? 'menu-open menu-is-open' : '' ?> ">
+                <a href="<?= base_url('/user') ?>" class="nav-link <?= $seg == 'user' ? 'active' : '' ?> ">
                   <i class="nav-icon fa fa-desktop"></i>
                   <p>
                     User
@@ -47,7 +47,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?= base_url('submateri') ?>" class="nav-link <?= $seg == 'submateri' ? 'active' : '' ?>">
+                    <a href="<?= base_url('subMateri') ?>" class="nav-link <?= $seg == 'subMateri' ? 'active' : '' ?>">
                       <i class="nav-icon far fa-circle"></i>
                       <p>Sub Materi</p>
                     </a>
